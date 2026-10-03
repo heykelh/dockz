@@ -66,7 +66,7 @@ export function entier(n: number | null | undefined): string {
 }
 
 export function millions(n: number): string {
-  return (n / 1_000_000).toLocaleString("fr-FR", { maximumFractionDigits: 1 });
+  return (n / 1_000_000).toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 }
 
 export function pourcent(a: number, b: number): number {

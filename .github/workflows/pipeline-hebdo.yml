@@ -1,0 +1,59 @@
+name: Mise à jour hebdomadaire DOCKZ
+
+on:
+  schedule:
+    - cron: "0 4 * * 1"   # chaque lundi à 4 h UTC
+  workflow_dispatch:       # lancement manuel depuis l'onglet Actions
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Installer les dépendances
+        run: pip install -r requirements.txt
+
+      - name: Entreprises (SIRENE)
+        run: python -m pipelines.sirene_ingest
+
+      - name: Installations classées (Géorisques)
+        run: python -m pipelines.georisques_ingest
+
+      - name: Entrepôts et exploitants
+        run: python -m pipelines.georisques_silver
+
+      - name: Ventes (DVF) téléchargement
+        run: python -m pipelines.dvf_download
+
+      - name: Ventes (DVF) nettoyage
+        run: python -m pipelines.dvf_silver
+
+      - name: Indicateurs (Gold)
+        run: python -m pipelines.build_gold
+
+      - name: Alerte en cas d'échec
+        if: failure()
+        run: >
+          curl -s
+          -H "Title: DOCKZ en échec"
+          -H "Priority: high"
+          -d "La mise à jour hebdomadaire a échoué : ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          https://ntfy.sh/${{ secrets.NTFY_TOPIC }}
+
+      - name: Notification de succès
+        if: success()
+        run: >
+          curl -s
+          -H "Title: DOCKZ à jour"
+          -d "Mise à jour hebdomadaire réussie."
+          https://ntfy.sh/${{ secrets.NTFY_TOPIC }}
