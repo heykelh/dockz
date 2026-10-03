@@ -180,3 +180,18 @@ from gold.prospects
 group by siren;
 
 create index prospects_entreprises_score_idx on gold.prospects_entreprises (score_max desc);
+
+drop materialized view if exists gold.marche_idf;
+
+create materialized view gold.marche_idf as
+select
+  annee,
+  segment_surface,
+  count(*)                                                      as nb_ventes,
+  count(*) filter (where prix_calculable and not prix_aberrant) as nb_prix,
+  round((percentile_cont(0.5) within group (order by prix_m2)
+         filter (where prix_calculable and not prix_aberrant))::numeric) as prix_m2_median
+from silver.ventes_locaux
+group by annee, segment_surface;
+
+grant select on all tables in schema gold to anon;

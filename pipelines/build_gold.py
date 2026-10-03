@@ -7,6 +7,7 @@ VUES = [
     "gold.entrepots_carte",
     "gold.parc_entrepots_dept",
     "gold.marche_ventes",
+    "gold.marche_idf",
     "gold.prospects",
     "gold.prospects_entreprises",
 ]
