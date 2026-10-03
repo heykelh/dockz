@@ -57,40 +57,52 @@ from silver.ventes_locaux
 group by departement, annee, segment_surface;
 
 -- Prospects avec score explicable
+drop materialized view if exists gold.prospects;
+
 create materialized view gold.prospects as
-with points as (
+with base as (
   select
-    s.siret,
+    s.*,
+    exists (
+      select 1 from silver.entrepots_icpe w where w.siret = s.siret
+    ) as est_exploitant,
+    (
+      s.geom is not null
+      and exists (select 1 from silver.entrepots_icpe w where st_dwithin(w.geom, s.geom, 500))
+    ) as proche_entrepot
+  from silver.etablissements s
+),
+points as (
+  select
+    siret,
+    est_exploitant,
+    proche_entrepot,
     case
-      when s.naf in ('52.10A', '52.10B') then 30
-      when s.naf in ('47.91A', '47.91B') then 25
-      when s.naf in ('52.29A', '52.29B') then 20
-      when s.naf in ('49.41A', '49.41B') then 15
-      when s.naf = '53.20Z' then 10
+      when naf in ('52.10A', '52.10B') then 30
+      when naf in ('47.91A', '47.91B') then 25
+      when naf in ('52.29A', '52.29B') then 20
+      when naf in ('49.41A', '49.41B') then 15
+      when naf = '53.20Z' then 10
       else 0
     end as pts_activite,
     case
-      when s.tranche_effectif = '11' then 5
-      when s.tranche_effectif = '12' then 10
-      when s.tranche_effectif = '21' then 15
-      when s.tranche_effectif = '22' then 20
-      when s.tranche_effectif in ('31', '32', '41', '42', '51', '52', '53') then 25
+      when tranche_effectif = '11' then 5
+      when tranche_effectif = '12' then 10
+      when tranche_effectif = '21' then 15
+      when tranche_effectif = '22' then 20
+      when tranche_effectif in ('31', '32', '41', '42', '51', '52', '53') then 25
       else 0
     end as pts_effectif,
     case
-      when exists (select 1 from silver.entrepots_icpe w where w.siret = s.siret) then 20
+      when est_exploitant then 35
+      when proche_entrepot then 25
       else 0
-    end as pts_exploitant,
+    end as pts_lien_entrepot,
     case
-      when s.geom is not null
-       and exists (select 1 from silver.entrepots_icpe w where st_dwithin(w.geom, s.geom, 500)) then 15
+      when date_creation >= current_date - interval '5 years' then 10
       else 0
-    end as pts_site_logistique,
-    case
-      when s.date_creation >= current_date - interval '5 years' then 10
-      else 0
-    end as pts_croissance
-  from silver.etablissements s
+    end as pts_site_recent
+  from base
 )
 select
   s.siret,
@@ -98,7 +110,7 @@ select
   s.raison_sociale,
   s.naf,
   s.tranche_effectif,
-  s.date_creation,
+  s.date_creation as date_ouverture_site,
   s.est_siege,
   s.adresse,
   s.code_postal,
@@ -106,12 +118,13 @@ select
   s.departement,
   st_x(s.geom::geometry) as lon,
   st_y(s.geom::geometry) as lat,
+  p.est_exploitant,
+  p.proche_entrepot,
   p.pts_activite,
   p.pts_effectif,
-  p.pts_exploitant,
-  p.pts_site_logistique,
-  p.pts_croissance,
-  p.pts_activite + p.pts_effectif + p.pts_exploitant + p.pts_site_logistique + p.pts_croissance as score
+  p.pts_lien_entrepot,
+  p.pts_site_recent,
+  p.pts_activite + p.pts_effectif + p.pts_lien_entrepot + p.pts_site_recent as score
 from silver.etablissements s
 join points p using (siret);
 
@@ -151,3 +164,19 @@ select distinct on (source_id, nom_controle)
   execute_le
 from gov.controles_qualite
 order by source_id, nom_controle, execute_le desc;
+
+drop materialized view if exists gold.prospects_entreprises;
+
+create materialized view gold.prospects_entreprises as
+select
+  siren,
+  max(raison_sociale)                                         as raison_sociale,
+  count(*)                                                    as nb_sites,
+  max(score)                                                  as score_max,
+  string_agg(distinct departement, ', ' order by departement) as departements,
+  bool_or(est_exploitant)                                     as exploite_un_entrepot,
+  bool_or(proche_entrepot)                                    as proche_d_un_entrepot
+from gold.prospects
+group by siren;
+
+create index prospects_entreprises_score_idx on gold.prospects_entreprises (score_max desc);

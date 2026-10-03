@@ -8,6 +8,7 @@ VUES = [
     "gold.parc_entrepots_dept",
     "gold.marche_ventes",
     "gold.prospects",
+    "gold.prospects_entreprises",
 ]
 
 SYNTHESES = {
@@ -51,7 +52,7 @@ SYNTHESES = {
     """,
     "Top 10 des prospects": """
         select raison_sociale, naf, departement, score,
-               pts_activite, pts_effectif, pts_exploitant, pts_site_logistique, pts_croissance
+               pts_activite, pts_effectif, pts_lien_entrepot, pts_site_recent
         from gold.prospects order by score desc, raison_sociale limit 10
     """,
 }
