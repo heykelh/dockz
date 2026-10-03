@@ -9,7 +9,12 @@ load_dotenv()
 
 @contextmanager
 def get_conn():
-    url = os.environ["DATABASE_URL"]
+    url = os.environ.get("DATABASE_URL", "").strip()
+    if not url:
+        raise RuntimeError(
+            "DATABASE_URL est vide : définir la variable dans .env en local, "
+            "ou le secret DATABASE_URL dans GitHub (Settings > Secrets and variables > Actions)."
+        )
     with psycopg.connect(url, autocommit=False) as conn:
         yield conn
 
