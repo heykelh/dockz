@@ -116,7 +116,7 @@ export function CarteEntrepots({ entrepots }: { entrepots: Entrepot[] }) {
           regime.textContent = p.regime ? `Régime : ${p.regime}` : "";
           bloc.append(titre, lieu, volume, regime);
 
-          const coords = (f.geometry as GeoJSON.Point).coordinates as [number, number];
+          const coords = (f.geometry as unknown as { coordinates: [number, number] }).coordinates;
           new maplibregl.Popup({ closeButton: true, maxWidth: "280px" })
             .setLngLat(coords)
             .setDOMContent(bloc)
