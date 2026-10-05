@@ -7,11 +7,14 @@
 **Qui possède les entrepôts ? Qui les occupe ? Qui pourrait en chercher ? Que se vend-il, où, et à quel prix ?**
 DOCKZ répond à ces questions avec des données publiques réelles, contrôlées et mises à jour automatiquement.
 
-![Statut](https://img.shields.io/badge/statut-en%20construction-orange)
+### 👉 [Voir la démo en ligne : dockz.vercel.app](https://dockz.vercel.app)
+
+![Statut](https://img.shields.io/badge/statut-en%20ligne-2ea44f)
+![Mise à jour](https://img.shields.io/badge/mise%20à%20jour-hebdomadaire-1f4fa0)
 ![Python](https://img.shields.io/badge/Python-3-3776AB?logo=python&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-Postgres%20%2B%20PostGIS-3ECF8E?logo=supabase&logoColor=white)
 ![DuckDB](https://img.shields.io/badge/DuckDB-transformation-FFF000?logo=duckdb&logoColor=black)
-![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=nextdotjs&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)
 ![Données](https://img.shields.io/badge/données-Licence%20Ouverte-0055A4)
 
 </div>
@@ -27,10 +30,19 @@ Au quotidien, ses consultants ont besoin de trois choses :
 | Besoin | La question qu'ils se posent | Ce que DOCKZ apporte |
 |:--|:--|:--|
 | 🗺️ **Connaître le marché** | Où sont les entrepôts ? Le marché ralentit-il ? | Une carte des 425 grands entrepôts franciliens et des indicateurs par département |
-| 🎯 **Trouver des clients** | Quelles entreprises pourraient avoir besoin d'un entrepôt ? | 8 953 entreprises classées par un score de priorité lisible, avec export Excel |
-| 📊 **Piloter l'activité** | Combien de demandes, à quel stade, avec quel résultat ? | Des tableaux de bord et un formulaire qui alimente la base automatiquement |
+| 🎯 **Trouver des clients** | Quelles entreprises pourraient avoir besoin d'un entrepôt ? | 8 952 entreprises classées par un score de priorité lisible, avec export Excel |
+| 🛡️ **Pouvoir s'y fier** | D'où viennent ces chiffres ? Sont-ils à jour ? | Une page qui affiche la source, la date et les contrôles qualité de chaque donnée |
 
 Le tout repose sur une règle simple : **chaque chiffre affiché indique d'où il vient et de quand il date.**
+
+### Ce que contient le site
+
+| Page | Contenu |
+|:--|:--|
+| 🗺️ [**Marché**](https://dockz.vercel.app) | Carte interactive des grands entrepôts, parc par département, prix au m², évolution des ventes |
+| 🎯 [**Prospection**](https://dockz.vercel.app/prospection) | Entreprises classées par score, filtres, vue par site ou par entreprise, export Excel |
+| 🛡️ [**Qualité des données**](https://dockz.vercel.app/qualite) | État de chaque source, résultat de chaque contrôle |
+| 📘 [**Méthode**](https://dockz.vercel.app/methode) | Chaîne de données, calcul du score, sources, limites |
 
 ---
 
@@ -50,6 +62,8 @@ Toutes les données sont **publiques, gratuites et sous Licence Ouverte**. Aucun
 ---
 
 ## 📈 Ce que les données révèlent
+
+*Chiffres au 5 octobre 2026. Ils sont actualisés chaque semaine sur le site.*
 
 ### 🏭 Le parc des grands entrepôts
 
@@ -72,14 +86,14 @@ Toutes les données sont **publiques, gratuites et sous Licence Ouverte**. Aucun
 
 ### 🔑 L'observation clé : le déclarant n'est souvent pas l'occupant
 
-L'activité la plus fréquente chez les exploitants déclarés est la **location de biens immobiliers (107 entrepôts sur 425)**. On y trouve des foncières comme ARGAN, SEGRO ou Logicor, ainsi que les ports de Paris et de l'axe Seine.
+**129 entrepôts sur 425 (30 %)** sont déclarés par une société de location ou de gestion immobilière. On y trouve notamment des foncières logistiques comme ARGAN, SEGRO ou Logicor.
 
 Autrement dit, **l'exploitant officiel d'un entrepôt est souvent le propriétaire, et non l'entreprise qui l'occupe.** Pour un conseil en immobilier, cela fait deux cibles :
 
 | Cible | Ce qu'on leur propose | Comment DOCKZ les repère |
 |:--|:--|:--|
 | 🏦 **Propriétaires et investisseurs** | Mandats de commercialisation, arbitrages | Exploitants déclarés des entrepôts |
-| 🚚 **Occupants** | Nouveaux locaux, extension, renégociation | Entreprises logistiques installées à proximité immédiate des entrepôts |
+| 🚚 **Occupants** | Nouveaux locaux, extension, renégociation | Entreprises logistiques installées à moins de 500 m d'un entrepôt |
 
 ### 💶 Le marché des locaux d'activité
 
@@ -104,14 +118,14 @@ Autrement dit, **l'exploitant officiel d'un entrepôt est souvent le propriétai
 
 ### 🎯 Les prospects
 
-**8 953 établissements** d'entreprises de **10 salariés et plus**, dans 9 activités liées à la logistique : entreposage, messagerie, affrètement, transport routier, vente à distance et livraison.
+**8 952 établissements** d'entreprises de **10 salariés et plus**, dans 9 activités liées à la logistique : entreposage, messagerie, affrètement, transport routier, vente à distance et livraison.
 
 | Score | Établissements |
 |:--|--:|
 | 70 et plus | **141** |
 | 50 à 69 | 1 060 |
-| 30 à 49 | 2 346 |
-| Moins de 30 | 5 406 |
+| 30 à 49 | 2 347 |
+| Moins de 30 | 5 407 |
 
 En tête du classement, on retrouve des acteurs majeurs de la logistique : DHL Supply Chain, IKEA Distribution, FM Logistic, GXO, Carrefour Supply Chain, ITM Logistique ou Fnac Logistique. C'est la meilleure validation d'une règle de scoring : **elle fait remonter des noms qu'un commercial du secteur reconnaît immédiatement.**
 
@@ -137,15 +151,16 @@ Les prospects sont disponibles à deux niveaux : **par site** (avec l'adresse, p
 
 ## ⚙️ Comment ça marche
 
-Les données traversent trois étapes, comme dans une chaîne de préparation : on reçoit le brut, on le nettoie, puis on le met en forme pour l'usage.
+Les données traversent plusieurs étapes, comme dans une chaîne de préparation : on reçoit le brut, on le nettoie, on le met en forme, puis on n'expose au site que le strict nécessaire.
 
 ```mermaid
 flowchart LR
     A["🌐 Sources publiques<br/>SIRENE · Géorisques · DVF"] --> B["🥉 Bronze<br/>Données brutes,<br/>conservées telles quelles"]
     B --> C["🥈 Silver<br/>Données nettoyées,<br/>typées, géolocalisées"]
     C --> D["🥇 Gold<br/>Indicateurs prêts<br/>à l'emploi"]
-    D --> E["🖥️ Application web<br/>Carte · Prospection · Qualité"]
-    D --> F["📊 Power BI<br/>Pilotage"]
+    D --> X["🚪 Exposition<br/>Vues en lecture seule"]
+    X --> E["🖥️ Site web<br/>Carte · Prospection · Qualité"]
+    D --> F["📊 Power BI<br/>Pilotage (à venir)"]
     G["🛡️ Gouvernance<br/>Sources · Exécutions · Contrôles"] -.-> B
     G -.-> C
     G -.-> D
@@ -154,25 +169,33 @@ flowchart LR
 | Étape | En clair |
 |:--|:--|
 | 🥉 **Bronze** | On stocke la donnée exactement comme on l'a reçue. Si une erreur apparaît plus tard, on peut toujours revenir à l'original. |
-| 🥈 **Silver** | On nettoie : bons formats, doublons retirés, données personnelles exclues, coordonnées vérifiées, exploitants identifiés. |
+| 🥈 **Silver** | On nettoie : bons formats, doublons regroupés, données personnelles exclues, coordonnées vérifiées, exploitants identifiés. |
 | 🥇 **Gold** | On calcule ce dont les équipes ont besoin : parc par département, prospects classés, prix médians. |
+| 🚪 **Exposition** | Le site public ne voit que des vues en lecture seule sur la Gold. Les données brutes et les tables de travail restent inaccessibles. |
 | 🛡️ **Gouvernance** | Chaque exécution est tracée, chaque source est documentée, chaque contrôle est enregistré. |
 
-Les mises à jour se font **automatiquement chaque semaine**. En cas d'échec, une alerte est envoyée sur téléphone.
+### 🔄 Mise à jour automatique
+
+| Source | Fréquence | Comment |
+|:--|:--|:--|
+| SIRENE, DVF, indicateurs | **Chaque lundi** | GitHub Actions relance toute la chaîne, avec une notification sur téléphone en cas de succès ou d'échec |
+| Géorisques | **Chaque mois** | Le site de Géorisques bloque les connexions venant des serveurs cloud. Sa collecte est donc lancée depuis un poste local, puis la suite de la chaîne s'exécute normalement |
+
+Le site recharge ses données toutes les heures : aucune intervention n'est nécessaire après une mise à jour.
 
 ---
 
 ## 🛡️ Qualité et gouvernance des données
 
-Un outil de décision ne vaut que par la confiance qu'on peut lui accorder. DOCKZ affiche donc ses propres contrôles au lieu de les cacher.
+Un outil de décision ne vaut que par la confiance qu'on peut lui accorder. DOCKZ affiche donc ses propres contrôles au lieu de les cacher. Ils sont visibles en direct sur la page [Qualité des données](https://dockz.vercel.app/qualite).
 
 ### 🏢 Entreprises (SIRENE)
 
 | Contrôle | Résultat | Pourquoi c'est important |
 |:--|:--|:--|
-| 👤 Personnes physiques exclues | **13** sur 8 972 | Un entrepreneur individuel est une personne : ses données relèvent du RGPD et n'ont pas leur place dans une base de prospection B2B |
-| 🔒 Établissements non diffusibles exclus | **6** sur 8 972 | Ces entreprises ont demandé que leurs informations ne soient pas diffusées. Ce choix est respecté |
-| 📍 Établissements sans coordonnées | **111** sur 8 953 *(1,2 %)* | Ils restent dans la base, mais n'apparaissent pas sur la carte |
+| 👤 Personnes physiques exclues | **13** sur 8 971 | Un entrepreneur individuel est une personne : ses données relèvent du RGPD et n'ont pas leur place dans une base de prospection B2B |
+| 🔒 Établissements non diffusibles exclus | **6** sur 8 971 | Ces entreprises ont demandé que leurs informations ne soient pas diffusées. Ce choix est respecté |
+| 📍 Établissements sans coordonnées | **111** sur 8 955 *(1,2 %)* | Ils restent dans la prospection, mais n'apparaissent pas sur la carte |
 
 ### 🏭 Entrepôts (Géorisques)
 
@@ -213,16 +236,17 @@ Certains déclarants sont des bureaux d'études ou des holdings, probablement de
 
 | Phase | Contenu | Statut |
 |:--|:--|:-:|
-| **P0 · Fondations** | Ingestion SIRENE (Bronze et Silver) | ✅ |
-| | Ingestion Géorisques, entrepôts 1510 et identification des exploitants | ✅ |
-| | Ventes DVF 2021 à 2025, une ligne par vente | ✅ |
+| **P0 · Fondations** | Collecte SIRENE, Géorisques et DVF (Bronze et Silver) | ✅ |
+| | Entrepôts 1510 et identification des exploitants | ✅ |
 | | Couche Gold : carte, parc, marché, prospects, qualité | ✅ |
-| | Application web : carte, prospection avec export Excel, page Qualité | 🔄 |
-| | Mise à jour automatique hebdomadaire et mise en ligne | ⏳ |
-| **P1 · Usage métier** | Rapport Power BI de pilotage | ⏳ |
+| | Couche d'exposition en lecture seule | ✅ |
+| | Site web : carte, prospection avec export Excel, qualité, méthode | ✅ |
+| | Mise à jour automatique hebdomadaire avec alertes | ✅ |
+| **P1 · Usage métier** | Rapport Power BI de pilotage avec un CRM ERBC simulé | ⏳ |
 | | Formulaire « dépôt de besoin client » avec enrichissement automatique | ⏳ |
 | | Note de marché trimestrielle rédigée automatiquement à partir des chiffres | ⏳ |
 | | Ajout des permis de construire d'entrepôts (Sitadel) | ⏳ |
+| | Fiche entrepôt avec les entreprises installées à proximité | ⏳ |
 | **P2 · Adoption** | Fiche prospect générée à partir d'un numéro SIREN | ⏳ |
 | | Assistant de recherche dans la documentation publique du secteur | ⏳ |
 | | Cahier des charges, guide utilisateur, support d'atelier de formation | ⏳ |
@@ -237,10 +261,10 @@ Certains déclarants sont des bureaux d'études ou des holdings, probablement de
 |:--|:--|
 | Collecte et traitement | Python, requests, DuckDB, pandas |
 | Base de données | Supabase (PostgreSQL), PostGIS pour la géographie |
-| Automatisation | GitHub Actions, alertes ntfy.sh |
-| Application web | Next.js 15, TypeScript, Tailwind CSS, shadcn/ui |
+| Automatisation | GitHub Actions, notifications ntfy.sh |
+| Site web | Next.js 16, TypeScript, Tailwind CSS |
 | Cartographie | MapLibre GL, fonds OpenFreeMap |
-| Pilotage | Power BI Desktop, export Excel |
+| Export | SheetJS (Excel) |
 | Hébergement | Vercel |
 
 ---
@@ -249,21 +273,24 @@ Certains déclarants sont des bureaux d'études ou des holdings, probablement de
 
 ```
 dockz/
+├── .github/workflows/
+│   └── pipeline-hebdo.yml      Mise à jour automatique chaque lundi
 ├── pipelines/
 │   ├── common/db.py            Connexion base et suivi des exécutions
 │   ├── sirene_ingest.py        Entreprises ciblées (Bronze et Silver)
 │   ├── georisques_probe.py     Test de l'API Géorisques
-│   ├── georisques_ingest.py    Installations classées (Bronze)
+│   ├── georisques_ingest.py    Installations classées (Bronze, en local)
 │   ├── georisques_silver.py    Entrepôts 1510 et exploitants (Silver)
 │   ├── dvf_download.py         Téléchargement et profilage des ventes
 │   ├── dvf_silver.py           Une ligne par vente (Silver)
-│   ├── build_gold.py           Rafraîchissement et synthèse de la couche Gold
+│   ├── build_gold.py           Rafraîchissement et synthèse de la Gold
 │   └── apply_sql.py            Exécution des scripts SQL
 ├── sql/
 │   ├── 001_schema.sql          Schémas, gouvernance, Bronze
 │   ├── 002_silver.sql          Tables Silver
-│   └── 003_gold.sql            Vues Gold
-├── web/                        Application Next.js (en cours)
+│   ├── 003_gold.sql            Vues Gold
+│   └── 004_exposition.sql      Vues en lecture seule pour le site
+├── web/                        Site Next.js
 ├── data/raw/                   Fichiers bruts téléchargés (non versionnés)
 └── requirements.txt
 ```
@@ -271,6 +298,8 @@ dockz/
 ---
 
 ## 🚀 Lancer le projet
+
+### Les données
 
 **Prérequis :** Python 3, un projet Supabase avec PostGIS activé.
 
@@ -298,6 +327,16 @@ python -m pipelines.dvf_silver
 python -m pipelines.build_gold
 ```
 
+### Le site
+
+```powershell
+cd web
+pnpm install
+pnpm dev
+```
+
+Créer au préalable `web/.env.local` avec `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_ANON_KEY` (clé publique uniquement).
+
 ---
 
 <div align="center">
@@ -305,6 +344,6 @@ python -m pipelines.build_gold
 **DOCKZ** · projet portfolio data et gouvernance · données publiques sous Licence Ouverte
 ERBC est une société fictive, créée pour illustrer un cas d'usage réaliste.
 
-[GitHub](https://github.com/heykelh) · [Portfolio](https://heykelhachiche.com)
+[Démo en ligne](https://dockz.vercel.app) · [GitHub](https://github.com/heykelh) · [Portfolio](https://heykelhachiche.com)
 
 </div>

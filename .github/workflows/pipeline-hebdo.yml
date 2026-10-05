@@ -5,14 +5,16 @@ on:
     - cron: "0 4 * * 1"   # chaque lundi à 4 h UTC
   workflow_dispatch:       # lancement manuel depuis l'onglet Actions
 
+# Géorisques bloque les serveurs cloud : sa collecte est lancée en local une fois par mois
+# (python -m pipelines.georisques_ingest). La Silver est reconstruite ici chaque semaine.
+
 jobs:
   pipeline:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 60
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       NTFY_URL: https://ntfy.sh/${{ secrets.NTFY_TOPIC }}
-      # Les conditions "if" ne peuvent pas lire les secrets : on expose seulement s'il existe
       NTFY_ACTIF: ${{ secrets.NTFY_TOPIC != '' }}
 
     steps:
@@ -34,21 +36,7 @@ jobs:
       - name: Entreprises (SIRENE)
         run: python -m pipelines.sirene_ingest
 
-      - name: Diagnostic Géorisques
-        continue-on-error: true
-        run: |
-          curl -sS -m 30 -w "\nHTTP %{http_code} en %{time_total} s\n" \
-            "https://georisques.gouv.fr/api/v1/installations_classees?departement=75&page=1&page_size=1" \
-            | tail -c 400
-
-      - name: Installations classées (Géorisques)
-        id: georisques
-        continue-on-error: true
-        run: python -m pipelines.georisques_ingest
-
-      - name: Entrepôts et exploitants
-        id: georisques_silver
-        continue-on-error: true
+      - name: Entrepôts et exploitants (depuis la dernière collecte Géorisques)
         run: python -m pipelines.georisques_silver
 
       - name: Ventes (DVF) téléchargement
@@ -60,14 +48,6 @@ jobs:
       - name: Indicateurs (Gold)
         run: python -m pipelines.build_gold
 
-      - name: Avertissement Géorisques
-        if: success() && env.NTFY_ACTIF == 'true' && (steps.georisques.outcome == 'failure' || steps.georisques_silver.outcome == 'failure')
-        run: >
-          curl -s
-          -H "Title: DOCKZ à jour, sauf Géorisques"
-          -d "Géorisques n'a pas pu être actualisé : les entrepôts restent sur la version précédente. Relancer en local si besoin."
-          "$NTFY_URL"
-
       - name: Alerte en cas d'échec
         if: failure() && env.NTFY_ACTIF == 'true'
         run: >
@@ -78,7 +58,7 @@ jobs:
           "$NTFY_URL"
 
       - name: Notification de succès
-        if: success() && env.NTFY_ACTIF == 'true' && steps.georisques.outcome == 'success' && steps.georisques_silver.outcome == 'success'
+        if: success() && env.NTFY_ACTIF == 'true'
         run: >
           curl -s
           -H "Title: DOCKZ à jour"
