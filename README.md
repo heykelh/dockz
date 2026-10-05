@@ -178,7 +178,7 @@ flowchart LR
 
 | Source | Fréquence | Comment |
 |:--|:--|:--|
-| SIRENE, DVF, indicateurs | **Chaque lundi** | GitHub Actions relance toute la chaîne, avec une notification sur téléphone en cas de succès ou d'échec |
+| SIRENE, DVF, indicateurs | **Chaque lundi** | GitHub Actions relance toute la chaîne. En cas d'échec, une alerte est envoyée par e-mail |
 | Géorisques | **Chaque mois** | Le site de Géorisques bloque les connexions venant des serveurs cloud. Sa collecte est donc lancée depuis un poste local, puis la suite de la chaîne s'exécute normalement |
 
 Le site recharge ses données toutes les heures : aucune intervention n'est nécessaire après une mise à jour.
