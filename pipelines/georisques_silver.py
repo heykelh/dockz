@@ -58,7 +58,11 @@ def build_entrepots(conn) -> int:
               from jsonb_array_elements(coalesce(b.payload->'rubriques', '[]'::jsonb)) x
               where x->>'numeroRubrique' = '1510'
             ) r
-            where exists (
+            where b.run_id = (
+              select max(run_id) from bronze.georisques_installations
+              where run_id in (select run_id from gov.ingestion_runs where statut = 'succes')
+            )
+              and exists (
               select 1
               from jsonb_array_elements(coalesce(b.payload->'rubriques', '[]'::jsonb)) x
               where x->>'numeroRubrique' = '1510'
@@ -144,8 +148,13 @@ def record_controles(conn, run_id: int) -> None:
         cur.execute(
             """
             select
-              (select count(*) from bronze.georisques_installations),
-              (select count(*) from bronze.georisques_installations where payload->>'regime' = 'Non ICPE'),
+              (select count(*) from bronze.georisques_installations
+                where run_id = (select max(run_id) from bronze.georisques_installations
+                                where run_id in (select run_id from gov.ingestion_runs where statut = 'succes'))),
+              (select count(*) from bronze.georisques_installations
+                where payload->>'regime' = 'Non ICPE'
+                  and run_id = (select max(run_id) from bronze.georisques_installations
+                                where run_id in (select run_id from gov.ingestion_runs where statut = 'succes'))),
               (select count(*) from silver.entrepots_icpe),
               (select count(*) from silver.entrepots_icpe where siret is null or siret !~ '^[0-9]{14}$'),
               (select count(*) from silver.entrepots_icpe where geom is null),

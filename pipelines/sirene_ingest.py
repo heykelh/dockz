@@ -111,6 +111,8 @@ def build_silver(conn, run_id: int) -> int:
     Exclusions : personnes physiques (nature juridique 1xxx) et établissements non diffusibles.
     """
     with conn.cursor() as cur:
+        # Silver ne reflète que la dernière collecte : les établissements sortis de la source disparaissent
+        cur.execute("truncate silver.etablissements")
         cur.execute(
             """
             insert into silver.etablissements (
